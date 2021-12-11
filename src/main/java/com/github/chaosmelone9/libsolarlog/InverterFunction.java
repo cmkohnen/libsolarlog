@@ -7,5 +7,7 @@ public enum InverterFunction {
     Utility_Meter_1,
     Utility_Meter_2,
     Windsensor,
-    Sub_Verbrauchszaehler
+    Sub_Verbrauchszaehler;
+
+    public static InverterFunction fromOrdinal(int ordinal) {return values()[ordinal];}
 }
