@@ -3,6 +3,7 @@ package com.github.chaosmelone9.libsolarlog;
 import com.github.chaosmelone9.libsolarlog.dataExtraction.ExtractFromJS;
 import com.github.chaosmelone9.libsolarlog.dataExtraction.GetConfigurationFromBaseVars;
 import com.github.chaosmelone9.libsolarlog.databaseInteraction.MariaDBInteraction;
+import com.github.chaosmelone9.libsolarlog.ftpInteraction.FTPServerInteraction;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,6 +51,10 @@ public class SolarMap {
 
     public List<File> addFromJSFiles(File base_vars, List<File> files) throws IOException {
         return addFromJSFiles(GetConfigurationFromBaseVars.getInvertersFromBaseVars(base_vars), files);
+    }
+
+    public List<File> addFromFTPServer(String host, String user, String password) throws IOException {
+        return addFromJSFiles(FTPServerInteraction.getBaseVarsFromFTPServer(host, user, password), FTPServerInteraction.getJSFilesFromFTPServer(host, user, password));
     }
 
     public void pushToMariaDB(String user, String password, String address, String database, Map<Inverter, Map<Date, Map<String, Integer>>> data, boolean ignoreFlag) throws SQLException {

@@ -6,7 +6,7 @@
 
     <groupId>com.github.chaosmelone9</groupId>
     <artifactId>libsolarlog</artifactId>
-    <version>0.0.0rc2-0</version>
+    <version>0.0.0rc3-0</version>
     <name>libsolarlog</name>
     <url>https://github.com/ChaosMelone9/libsolarlog</url>
 
@@ -29,6 +29,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
+            <scope>compile</scope>
+            <optional>false</optional>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.8.0</version>
             <scope>compile</scope>
             <optional>false</optional>
         </dependency>
