@@ -6,7 +6,7 @@
 
     <groupId>com.github.chaosmelone9</groupId>
     <artifactId>libsolarlog</artifactId>
-    <version>0.0.1rc1</version>
+    <version>0.0.1</version>
     <name>libsolarlog</name>
     <url>https://github.com/ChaosMelone9/libsolarlog</url>
 
@@ -51,6 +51,7 @@
             <artifactId>mariadb-java-client</artifactId>
             <version>2.7.4</version>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
