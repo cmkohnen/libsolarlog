@@ -19,7 +19,7 @@ import java.util.*;
 public class ExtractFromJS {
     private static final String DATEFORMAT = "dd.MM.yy HH:mm:ss";
 
-    public static Map<Inverter, Map<Date, Map<String, Integer>>> extractDataFromJSFile(List<Inverter> inverters, File file) throws IOException, ParseException, UnsupportedInverterFunctionException {
+    public static Map<Inverter, Map<Date, Map<String, Integer>>> extractDataFromJSFile(List<Inverter> inverters, File file) throws IOException, ParseException, UnsupportedInverterFunctionException, NullPointerException, NumberFormatException {
         Map<Inverter, Map<Date, Map<String, Integer>>> finalData = new HashMap<>();
         // loop for every inverter
         for (int i = 0; i < inverters.size(); i++) {

@@ -91,7 +91,7 @@ public class MariaDBInteraction {
                                         insertDataStatement.setInt(inverter.strings + 4 + i, values.get("TotalUDC" + (i + 1)));
                                     }
                                 } else {
-                                    insertDataStatement.setInt(2, values.get("TotalPAC"));
+                                    insertDataStatement.setInt(2, values.get("ConsPAC"));
                                     insertDataStatement.setInt(inverter.strings + 3, values.get("ConsYieldDay"));
                                     for (int i=0; i< inverter.strings; i++) {
                                         insertDataStatement.setInt(3 + i, values.get("ConsPDC" + (i + 1)));
@@ -161,7 +161,7 @@ public class MariaDBInteraction {
                     }
                 } else {
                     builder
-                            .append("TotalPAC INT,")
+                            .append("ConsPAC INT,")
                             .append("ConsYieldDay INT,");
                     for (int i = 0; i < inverter.strings; i++) {
                         builder
@@ -228,7 +228,7 @@ public class MariaDBInteraction {
                     }
                 } else {
                     builder
-                            .append("TotalPAC, ")
+                            .append("ConsPAC, ")
                             .append("ConsYieldDay, ");
                     values = 2;
                     for (int i = 0; i < inverter.strings; i++) {
