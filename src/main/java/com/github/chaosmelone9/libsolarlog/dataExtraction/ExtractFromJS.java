@@ -1,7 +1,6 @@
 package com.github.chaosmelone9.libsolarlog.dataExtraction;
 
 import com.github.chaosmelone9.libsolarlog.Inverter;
-import com.github.chaosmelone9.libsolarlog.InverterFunction;
 import com.github.chaosmelone9.libsolarlog.UnsupportedInverterFunctionException;
 import com.github.chaosmelone9.libsolarlog.fileInteraction.GetFileContent;
 import org.apache.commons.lang3.StringUtils;
@@ -37,66 +36,66 @@ public class ExtractFromJS {
                 if (inverterStrings == 0) inverterStrings = 1;
                 // Get values as String for current inverter
                 List<String> strings = Arrays.asList(separated.get(i + 1).split(";"));
-                if (inverter.function == InverterFunction.Wechselrichter) {
-                    //global pac, Index 0
-                    values.put("PAC", Integer.valueOf(strings.get(0)));
-                    // PDCs, Index string + 1
-                    for(int j = 0; j < inverterStrings; j++) {
-                        values.put(String.format("PDC%s", (j + 1)), Integer.valueOf(strings.get(j + 1)));
-                    }
-                    // Yield for the day, Index amount of strings + 1
-                    values.put("YieldDay", Integer.parseInt(strings.get(inverterStrings + 1)));
-                    // UDCs, Index amount of strings + 2 + string
-                    for(int j = 0; j < inverterStrings; j++) {
-                        values.put(String.format("UDC%s", (j + 1)), Integer.valueOf(strings.get(inverterStrings) + 2 + j));
-                    }
-                    if (inverter.temperature) {
-                        // Temperature, Index amount of strings * 2 + 2
-                        values.put("Temperature", Integer.valueOf(strings.get(inverterStrings*2 + 2)));
-                    }
-                } else if(inverter.function == InverterFunction.SensorBox) {
-                    values.put("SunExposure", Integer.valueOf(strings.get(0)));
-                    values.put("ModuleTemperature", Integer.valueOf(strings.get(1)));
-                    values.put("OutdoorTemperature", Integer.valueOf(strings.get(2)));
-                    values.put("WindSpeed", Integer.valueOf(strings.get(3)));
-                } else if(inverter.function == InverterFunction.SO_Stromzaehler) {
-                    if (inverter.functionType == 0) {
-                        //total PAC, Index 0
-                        values.put("TotalPAC", Integer.valueOf(strings.get(0)));
+                switch (inverter.function) {
+                    case Wechselrichter:
+                        //global pac, Index 0
+                        values.put("PAC", Integer.valueOf(strings.get(0)));
                         // PDCs, Index string + 1
                         for(int j = 0; j < inverterStrings; j++) {
-                            values.put(String.format("TotalPDC%s", (j + 1)), Integer.valueOf(strings.get(j + 1)));
+                            values.put(String.format("PDC%s", (j + 1)), Integer.valueOf(strings.get(j + 1)));
                         }
                         // Yield for the day, Index amount of strings + 1
-                        values.put("TotalYieldDay", Integer.parseInt(strings.get(inverterStrings + 1)));
+                        values.put("YieldDay", Integer.parseInt(strings.get(inverterStrings + 1)));
                         // UDCs, Index amount of strings + 2 + string
                         for(int j = 0; j < inverterStrings; j++) {
-                            values.put(String.format("TotalUDC%s", (j + 1)), Integer.valueOf(strings.get(inverterStrings) + 2 + j));
+                            values.put(String.format("UDC%s", (j + 1)), Integer.valueOf(strings.get(inverterStrings) + 2 + j));
                         }
                         if (inverter.temperature) {
                             // Temperature, Index amount of strings * 2 + 2
                             values.put("Temperature", Integer.valueOf(strings.get(inverterStrings*2 + 2)));
                         }
-                    } else {
-                        //total ConsPAC, Index 0
-                        values.put("ConsPAC", Integer.valueOf(strings.get(0)));
-                        // PDCs, Index string + 1
-                        for(int j = 0; j < inverterStrings; j++) {
-                            values.put(String.format("ConsPDC%s", (j + 1)), Integer.valueOf(strings.get(j + 1)));
-                        }
-                        // Yield for the day, Index amount of strings + 1
-                        values.put("ConsYieldDay", Integer.parseInt(strings.get(inverterStrings + 1)));
-                        // UDCs, Index amount of strings + 2 + string
-                        for(int j = 0; j < inverterStrings; j++) {
-                            values.put(String.format("ConsUDC%s", (j + 1)), Integer.valueOf(strings.get(inverterStrings) + 2 + j));
+                        break;
+                    case SensorBox:
+                        values.put("SunExposure", Integer.valueOf(strings.get(0)));
+                        values.put("ModuleTemperature", Integer.valueOf(strings.get(1)));
+                        values.put("OutdoorTemperature", Integer.valueOf(strings.get(2)));
+                        values.put("WindSpeed", Integer.valueOf(strings.get(3)));
+                        break;
+                    case SO_Stromzaehler:
+                        if (inverter.functionType == 0) {
+                            //total PAC, Index 0
+                            values.put("TotalPAC", Integer.valueOf(strings.get(0)));
+                            // PDCs, Index string + 1
+                            for(int j = 0; j < inverterStrings; j++) {
+                                values.put(String.format("TotalPDC%s", (j + 1)), Integer.valueOf(strings.get(j + 1)));
+                            }
+                            // Yield for the day, Index amount of strings + 1
+                            values.put("TotalYieldDay", Integer.parseInt(strings.get(inverterStrings + 1)));
+                            // UDCs, Index amount of strings + 2 + string
+                            for(int j = 0; j < inverterStrings; j++) {
+                                values.put(String.format("TotalUDC%s", (j + 1)), Integer.valueOf(strings.get(inverterStrings) + 2 + j));
+                            }
+                        } else {
+                            //total ConsPAC, Index 0
+                            values.put("ConsPAC", Integer.valueOf(strings.get(0)));
+                            // PDCs, Index string + 1
+                            for(int j = 0; j < inverterStrings; j++) {
+                                values.put(String.format("ConsPDC%s", (j + 1)), Integer.valueOf(strings.get(j + 1)));
+                            }
+                            // Yield for the day, Index amount of strings + 1
+                            values.put("ConsYieldDay", Integer.parseInt(strings.get(inverterStrings + 1)));
+                            // UDCs, Index amount of strings + 2 + string
+                            for(int j = 0; j < inverterStrings; j++) {
+                                values.put(String.format("ConsUDC%s", (j + 1)), Integer.valueOf(strings.get(inverterStrings) + 2 + j));
+                            }
                         }
                         if (inverter.temperature) {
                             // Temperature, Index amount of strings * 2 + 2
                             values.put("Temperature", Integer.valueOf(strings.get(inverterStrings*2 + 2)));
                         }
-                    }
-                } else {
-                    throw new UnsupportedInverterFunctionException(inverter.function.toString());
+                        break;
+                    default:
+                        throw new UnsupportedInverterFunctionException(inverter.function.toString());
                 }
                 inverterMap.put(date, values);
             }
