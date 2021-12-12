@@ -57,8 +57,8 @@ public class SolarMap {
         return addFromJSFiles(FTPServerInteraction.getBaseVarsFromFTPServer(host, user, password), FTPServerInteraction.getJSFilesFromFTPServer(host, user, password));
     }
 
-    public void pushToMariaDB(String user, String password, String address, String database, Map<Inverter, Map<Date, Map<String, Integer>>> data, boolean ignoreFlag) throws SQLException {
-        MariaDBInteraction.pushToMariaDB(user, password, address, database, data, ignoreFlag);
+    public void pushToMariaDB(String user, String password, String address, String database, boolean ignoreFlag) throws SQLException {
+        MariaDBInteraction.pushToMariaDB(user, password, address, database, getData(), ignoreFlag);
     }
 
     private void addData(Inverter inverter, Map<Date, Map<String, Integer>> map) {
