@@ -22,7 +22,7 @@ public class MariaDBInteraction {
     }
 
     public static void pushToMariaDB(Properties connConfig, String address, String database, Map<Inverter, Map<Date, Map<String, Integer>>> data, boolean ignoreFlag) throws SQLException {
-        Connection connection = DriverManager.getConnection(address, connConfig);
+        Connection connection = DriverManager.getConnection(String.format("jdbc:mariadb://%s", address), connConfig);
         connection.setAutoCommit(false);
 
         // Create inverter Table
@@ -125,7 +125,7 @@ public class MariaDBInteraction {
     }
 
     public static Map<Inverter, Map<Date, Map<String, Integer>>> getFromMariaDB(Properties connConfig, String address, String database) throws SQLException {
-        Connection connection = DriverManager.getConnection(address, connConfig);
+        Connection connection = DriverManager.getConnection(String.format("jdbc:mariadb://%s", address), connConfig);
         Statement statement = connection.createStatement();
         statement.execute(String.format("USE `%s`", database));
 
