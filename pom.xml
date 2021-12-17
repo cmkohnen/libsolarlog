@@ -6,7 +6,7 @@
 
     <groupId>com.github.chaosmelone9</groupId>
     <artifactId>libsolarlog</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2rc1</version>
     <name>libsolarlog</name>
     <url>https://github.com/ChaosMelone9/libsolarlog</url>
 

@@ -1,11 +1,11 @@
 package com.github.chaosmelone9.libsolarlog.databaseInteraction;
 
 import com.github.chaosmelone9.libsolarlog.Inverter;
+import com.github.chaosmelone9.libsolarlog.InverterFunction;
 
 import java.sql.*;
 import java.util.Date;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Extracting data from .js files found on ftp-backups
@@ -27,7 +27,7 @@ public class MariaDBInteraction {
 
         // Create inverter Table
         Statement statement = connection.createStatement();
-        statement.execute("USE `" + database + "`");
+        statement.execute(String.format("USE `%s`", database));
         statement.execute("CREATE TABLE IF NOT EXISTS inverter(" +
                 "inverter_identifier VARCHAR (50) NOT NULL," +
                 "PRIMARY KEY (inverter_identifier)," +
@@ -117,8 +117,88 @@ public class MariaDBInteraction {
         connection.commit();
     }
 
+    public static Map<Inverter, Map<Date, Map<String, Integer>>> getFromMariaDB(String user, String password, String address, String database) throws SQLException {
+        Properties connConfig = new Properties();
+        connConfig.setProperty("user", user);
+        connConfig.setProperty("password", password);
+        return getFromMariaDB(connConfig, address, database);
+    }
+
+    public static Map<Inverter, Map<Date, Map<String, Integer>>> getFromMariaDB(Properties connConfig, String address, String database) throws SQLException {
+        Connection connection = DriverManager.getConnection(address, connConfig);
+        Statement statement = connection.createStatement();
+        statement.execute(String.format("USE `%s`", database));
+
+        List<Inverter> inverters = new ArrayList<>();
+        ResultSet inverterOnDB = statement.executeQuery("SELECT inverter_identifier, inverter_type, strings, function, function_type, temperature FROM inverter");
+        while (inverterOnDB.next()) {
+            inverters.add(new Inverter(
+                    inverterOnDB.getString("inverter_type"),
+                    inverterOnDB.getString("inverter_identifier"),
+                    inverterOnDB.getInt("strings"),
+                    InverterFunction.fromOrdinal(inverterOnDB.getInt("function")),
+                    inverterOnDB.getInt("function_type"),
+                    inverterOnDB.getBoolean("temperature")
+            ));
+        }
+
+        Map<Inverter, Map<Date, Map<String, Integer>>> data = new HashMap<>();
+        for (Inverter inverter : inverters) {
+            ResultSet resultSet = statement.executeQuery(createSelectQuery(inverter));
+            Map<Date, Map<String, Integer>> localData = new HashMap<>();
+            while (resultSet.next()) {
+                Date date = new Date(resultSet.getTimestamp("timestamp").getTime());
+                Map<String, Integer> values = new HashMap<>();
+                switch (inverter.function) {
+                    case Wechselrichter:
+                        values.put("PAC", resultSet.getInt("PAC"));
+                        values.put("YieldDay", resultSet.getInt("YieldDay"));
+                        for (int i = 0; i < inverter.strings; i++) {
+                            values.put("PDC" + (i + 1), resultSet.getInt("PDC" + (i + 1)));
+                            values.put("UDC" + (i + 1), resultSet.getInt("UDC" + (i + 1)));
+                        }
+                        if(inverter.temperature) {
+                            values.put("Temperature", resultSet.getInt("Temperature"));
+                        }
+                        break;
+                    case SensorBox:
+                        values.put("SunExposure", resultSet.getInt("SunExposure"));
+                        values.put("ModuleTemperature", resultSet.getInt("ModuleTemperature"));
+                        values.put("OutdoorTemperature", resultSet.getInt("OutdoorTemperature"));
+                        values.put("WindSpeed", resultSet.getInt("WindSpeed"));
+                        break;
+                    case SO_Stromzaehler:
+                        if(inverter.functionType == 0) {
+                            values.put("TotalPAC", resultSet.getInt("TotalPAC"));
+                            values.put("TotalYieldDay", resultSet.getInt("TotalYieldDay"));
+                            for (int i = 0; i < inverter.strings; i++) {
+                                values.put("TotalPDC" + (i + 1), resultSet.getInt("TotalPDC" + (i + 1)));
+                                values.put("TotalUDC" + (i + 1), resultSet.getInt("TotalUDC" + (i + 1)));
+                            }
+                        } else {
+                            values.put("ConsPAC", resultSet.getInt("ConsPAC"));
+                            values.put("ConsYieldDay", resultSet.getInt("ConsYieldDay"));
+                            for (int i = 0; i < inverter.strings; i++) {
+                                values.put("ConsPDC" + (i + 1), resultSet.getInt("ConsPDC" + (i + 1)));
+                                values.put("ConsUDC" + (i + 1), resultSet.getInt("ConsUDC" + (i + 1)));
+                            }
+                        }
+                        if(inverter.temperature) {
+                            values.put("Temperature", resultSet.getInt("Temperature"));
+                        }
+                        break;
+                }
+                localData.put(date, values);
+            }
+            data.put(inverter, localData);
+        }
+        return data;
+    }
+
     private static String sanitizeInverterIdentifier(Inverter inverter) {
-        return inverter.identifier.replaceAll("\"", "").replaceAll(" ", "_");
+        return inverter.identifier
+                .replaceAll("\"", "")
+                .replaceAll(" ", "_");
     }
 
     private static String createTableQuery(Inverter inverter) {
@@ -252,5 +332,61 @@ public class MariaDBInteraction {
         builder.append(")");
 
         return builder.toString();
+    }
+
+    private static String createSelectQuery(Inverter inverter) {
+        StringBuilder builder = new StringBuilder();
+        builder
+                .append("SELECT ")
+                .append("timestamp, ");
+        switch (inverter.function) {
+            case Wechselrichter:
+                builder
+                        .append("PAC, ")
+                        .append("YieldDay, ");
+                for (int i = 0; i < inverter.strings; i++) {
+                    builder
+                            .append("PDC").append(i + 1).append(", ")
+                            .append("UDC").append(i + 1).append(", ");
+                }
+                if(inverter.temperature) {
+                    builder.append("Temperature, ");
+                }
+                break;
+            case SensorBox:
+                builder
+                        .append("SunExposure, ")
+                        .append("ModuleTemperature, ")
+                        .append("OutdoorTemperature, ")
+                        .append("WindSpeed, ");
+                break;
+            case SO_Stromzaehler:
+                if(inverter.functionType == 0) {
+                    builder
+                            .append("TotalPAC, ")
+                            .append("TotalYieldDay, ");
+                    for (int i = 0; i < inverter.strings; i++) {
+                        builder
+                                .append("TotalPDC").append(i + 1).append(", ")
+                                .append("TotalUDC").append(i + 1).append(", ");
+                    }
+                } else {
+                    builder
+                            .append("ConsPAC, ")
+                            .append("ConsYieldDay, ");
+                    for (int i = 0; i < inverter.strings; i++) {
+                        builder
+                                .append("ConsPDC").append(i + 1).append(", ")
+                                .append("ConsUDC").append(i + 1).append(", ");
+                    }
+                }
+                if(inverter.temperature) {
+                    builder.append("Temperature, ");
+                }
+                break;
+        }
+
+        builder.append("FROM ").append(sanitizeInverterIdentifier(inverter));
+        return builder.toString().replaceFirst("(?s)(.*), ", "$1 ");
     }
 }
