@@ -29,6 +29,9 @@ public class FTPServerInteraction {
         }
         ftpClient.login(user, password);
         FTPFile[] files = ftpClient.listFiles();
+        if(files.length == 0) {
+            throw new IOException("Can't list files on FTP-Server");
+        }
         FTPFile base_vars_ftp = null;
         for (FTPFile file : files) {
             if(file.getName().startsWith("base_vars")) {
@@ -64,6 +67,9 @@ public class FTPServerInteraction {
         }
         ftpClient.login(user, password);
         FTPFile[] files = ftpClient.listFiles();
+        if(files.length == 0) {
+            throw new IOException("Can't list files on FTP-Server");
+        }
         List<FTPFile> minuteFiles = new ArrayList<>();
         for (FTPFile file : files) {
             if(file.getName().startsWith("min") && !(file.getName().contains("day") || file.getName().contains("cur"))) {
