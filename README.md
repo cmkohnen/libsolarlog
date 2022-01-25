@@ -28,7 +28,7 @@ Sadly this project is not hosted anywhere (yet), so you have to import it on you
 
 ```
 #!/usr/bin/bash
-export version=0.0.1
+export version=0.0.2
 #If you haven't downloaded the binary run the following:
 wget "https://github.com/ChaosMelone9/libsolarlog/releases/download/$version/libsolarlog-$version.jar"
 
@@ -43,7 +43,7 @@ Simply drop this in your pom.xml:
 <dependency>
     <groupId>com.github.chaosmelone9</groupId>
     <artifactId>libsolarlog</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 
