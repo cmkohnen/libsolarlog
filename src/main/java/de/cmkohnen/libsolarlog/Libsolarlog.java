@@ -1,4 +1,4 @@
-package com.github.chaosmelone9.libsolarlog;
+package de.cmkohnen.libsolarlog;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;

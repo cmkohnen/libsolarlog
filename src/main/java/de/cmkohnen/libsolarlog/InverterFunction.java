@@ -1,4 +1,4 @@
-package com.github.chaosmelone9.libsolarlog;
+package de.cmkohnen.libsolarlog;
 
 /**
  * Main Class for the libsolarlog project

@@ -1,7 +1,7 @@
-package com.github.chaosmelone9.libsolarlog.databaseInteraction;
+package de.cmkohnen.libsolarlog.databaseInteraction;
 
-import com.github.chaosmelone9.libsolarlog.Inverter;
-import com.github.chaosmelone9.libsolarlog.InverterFunction;
+import de.cmkohnen.libsolarlog.Inverter;
+import de.cmkohnen.libsolarlog.InverterFunction;
 
 import java.sql.*;
 import java.util.Date;

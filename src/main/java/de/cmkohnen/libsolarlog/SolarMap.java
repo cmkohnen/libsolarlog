@@ -1,9 +1,9 @@
-package com.github.chaosmelone9.libsolarlog;
+package de.cmkohnen.libsolarlog;
 
-import com.github.chaosmelone9.libsolarlog.dataExtraction.ExtractFromJS;
-import com.github.chaosmelone9.libsolarlog.dataExtraction.GetConfigurationFromBaseVars;
-import com.github.chaosmelone9.libsolarlog.databaseInteraction.MariaDBInteraction;
-import com.github.chaosmelone9.libsolarlog.ftpInteraction.FTPServerInteraction;
+import de.cmkohnen.libsolarlog.dataExtraction.ExtractFromJS;
+import de.cmkohnen.libsolarlog.dataExtraction.GetConfigurationFromBaseVars;
+import de.cmkohnen.libsolarlog.databaseInteraction.MariaDBInteraction;
+import de.cmkohnen.libsolarlog.ftpInteraction.FTPServerInteraction;
 
 import java.io.File;
 import java.io.IOException;

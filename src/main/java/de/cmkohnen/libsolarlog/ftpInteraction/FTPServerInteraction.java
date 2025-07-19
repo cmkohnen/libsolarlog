@@ -1,7 +1,7 @@
-package com.github.chaosmelone9.libsolarlog.ftpInteraction;
+package de.cmkohnen.libsolarlog.ftpInteraction;
 
 
-import com.github.chaosmelone9.libsolarlog.fileInteraction.WorkingDirectory;
+import de.cmkohnen.libsolarlog.fileInteraction.WorkingDirectory;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;

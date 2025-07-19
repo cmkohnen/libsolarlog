@@ -1,4 +1,4 @@
-package com.github.chaosmelone9.libsolarlog.fileInteraction;
+package de.cmkohnen.libsolarlog.fileInteraction;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -9,9 +9,6 @@ The goal is to keep a modular way to easily read and manipulate the data to be a
 
 If you want to improve some functions or contribute feel free to do so, also feel free to use this project in any way that could help you personally.
 
-Greetings, ChaosMelone9
-(Sorry for the lack of english skills :P )
-
 ## Features
 
 - Read from .js-files
@@ -28,12 +25,12 @@ Sadly this project is not hosted anywhere (yet), so you have to import it on you
 
 ```
 #!/usr/bin/bash
-export version=0.0.2
+export version=0.0.3
 #If you haven't downloaded the binary run the following:
-wget "https://github.com/ChaosMelone9/libsolarlog/releases/download/$version/libsolarlog-$version.jar"
+wget "https://github.com/cmkohnen/libsolarlog/releases/download/$version/libsolarlog-$version.jar"
 
 #Run this to install into your local repository
-mvn install:install-file -Dfile=libsolarlog-$version.jar -DgroupId=com.github.chaosmelone9 -DartifactId=libsolarlog -Dversion=$version -Dpackaging=jar
+mvn install:install-file -Dfile=libsolarlog-$version.jar -DgroupId=de.cmkohnen -DartifactId=libsolarlog -Dversion=$version -Dpackaging=jar
 ```
 
 Now it is installed in your local repository, and you are free to add it as a dependency for your project.
@@ -41,9 +38,9 @@ Simply drop this in your pom.xml:
 
 ```xml
 <dependency>
-    <groupId>com.github.chaosmelone9</groupId>
+    <groupId>de.cmkohnen</groupId>
     <artifactId>libsolarlog</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 </dependency>
 ```
 
@@ -54,7 +51,7 @@ This project is structured around the SolarMap object. You can easily add data t
 Here's an example:
 
 ```java
-import com.github.chaosmelone9.libsolarlog.SolarMap;
+import de.cmkohnen.libsolarlog.SolarMap;
 
 import java.io.File;
 import java.util.Date;

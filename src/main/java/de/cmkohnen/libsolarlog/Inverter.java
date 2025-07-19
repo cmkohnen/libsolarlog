@@ -1,4 +1,4 @@
-package com.github.chaosmelone9.libsolarlog;
+package de.cmkohnen.libsolarlog;
 
 import java.util.HashMap;
 import java.util.Map;

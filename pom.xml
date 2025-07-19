@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.chaosmelone9</groupId>
+    <groupId>de.cmkohnen</groupId>
     <artifactId>libsolarlog</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <name>libsolarlog</name>
-    <url>https://github.com/ChaosMelone9/libsolarlog</url>
+    <url>https://github.com/cmkohnen/libsolarlog</url>
 
     <licenses>
         <license>
@@ -19,8 +19,8 @@
 
     <contributors>
         <contributor>
-            <name>Christoph Kohnen</name>
-            <url>https://github.com/ChaosMelone9</url>
+            <name>Christoph Matthias Kohnen</name>
+            <url>https://github.com/cmkohnen</url>
         </contributor>
     </contributors>
 

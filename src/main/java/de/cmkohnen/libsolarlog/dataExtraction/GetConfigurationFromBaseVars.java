@@ -1,8 +1,8 @@
-package com.github.chaosmelone9.libsolarlog.dataExtraction;
+package de.cmkohnen.libsolarlog.dataExtraction;
 
-import com.github.chaosmelone9.libsolarlog.Inverter;
-import com.github.chaosmelone9.libsolarlog.InverterFunction;
-import com.github.chaosmelone9.libsolarlog.fileInteraction.GetFileContent;
+import de.cmkohnen.libsolarlog.Inverter;
+import de.cmkohnen.libsolarlog.InverterFunction;
+import de.cmkohnen.libsolarlog.fileInteraction.GetFileContent;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
